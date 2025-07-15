@@ -11,14 +11,17 @@ class WiFiWizard
 public:
     WiFiWizard();
 
-    void begin();        // Initialize WiFiWizard
-    void loop();         // Call repeatedly in your main loop
-    void startAP();      // Start Access Point mode with captive portal
-    void stopAPPublic(); // Stop Access Point mode and DNS server
-    int scanNetworks();  // Scan available WiFi networks
+    WiFiWizard(const String &prefsNamespace, const String &apBaseName = "WifiWizard", const char *apPassword = nullptr);
+
+    void begin();
+    void loop();
+    void startAP();
+    void startAP(const String &customSSID, const char *password = nullptr);
+    void stopAPPublic();
+    int scanNetworks();
     void connectToWiFiPublic(const String &ssid, const String &password);
-    void processDNS();           // Call in loop for captive DNS
-    int getCurrentState() const; // Get current state (enum)
+    void processDNS();
+    int getCurrentState() const;
 
 private:
     enum WiFiState
@@ -33,12 +36,15 @@ private:
     String lastSSID;
     String lastPassword;
     String apSSID;
+    const char *apPassword = nullptr;
+    String preferencesNamespace = "wifi";
     unsigned long lastAttemptTime = 0;
 
     Preferences preferences;
     DNSServer dnsServer;
     bool dnsServerStarted = false;
 
+    String apBaseName = "FormaSetup";
     void connectToWiFi(const String &ssid, const String &password);
 };
 

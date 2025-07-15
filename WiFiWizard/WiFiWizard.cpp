@@ -6,9 +6,14 @@ WiFiWizard::WiFiWizard() : currentState(STATE_OFFLINE)
 {
 }
 
+WiFiWizard::WiFiWizard(const String &prefsNamespace, const String &apBaseName, const char *apPassword)
+    : currentState(STATE_OFFLINE), preferencesNamespace(prefsNamespace), apBaseName(apBaseName), apPassword(apPassword)
+{
+}
+
 void WiFiWizard::begin()
 {
-    preferences.begin("wifi", false);
+    preferences.begin(preferencesNamespace.c_str(), false);
     lastSSID = preferences.getString("ssid", "");
     lastPassword = preferences.getString("password", "");
     preferences.end();
@@ -38,10 +43,10 @@ void WiFiWizard::begin()
 
     Serial.println("Starting Access Point Mode...");
     WiFi.mode(WIFI_AP);
-    apSSID = "FormaSetup-" + String((uint32_t)ESP.getEfuseMac(), HEX);
-    WiFi.softAP(apSSID.c_str(), NULL);
+    apSSID = apBaseName + "-" + String((uint32_t)ESP.getEfuseMac(), HEX);
+    WiFi.softAP(apSSID.c_str(), apPassword);
 
-    delay(500); // Give AP time to settle
+    delay(500);
 
     if (!dnsServerStarted)
     {
@@ -93,9 +98,14 @@ int WiFiWizard::scanNetworks()
 
 void WiFiWizard::startAP()
 {
+    startAP("Wifi-Wizard", nullptr);
+}
+
+void WiFiWizard::startAP(const String &customSSID, const char *password)
+{
     Serial.println("Starting WiFi AP for configuration...");
     WiFi.mode(WIFI_AP);
-    WiFi.softAP("Forma-Setup");
+    WiFi.softAP(customSSID.c_str(), password);
 
     if (!dnsServerStarted)
     {
@@ -150,7 +160,7 @@ void WiFiWizard::connectToWiFi(const String &ssid, const String &password)
         Serial.println("WiFi connected.");
         currentState = STATE_CONNECTED;
 
-        preferences.begin("wifi", false);
+        preferences.begin(preferencesNamespace.c_str(), false);
         preferences.putString("ssid", ssid);
         preferences.putString("password", password);
         preferences.end();
