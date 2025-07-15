@@ -44,7 +44,7 @@ private:
     DNSServer dnsServer;
     bool dnsServerStarted = false;
 
-    String apBaseName = "FormaSetup";
+    String apBaseName = "Wifi-Wizard";
     void connectToWiFi(const String &ssid, const String &password);
 };
 
