@@ -6,8 +6,11 @@ WiFiWizard::WiFiWizard() : currentState(STATE_OFFLINE)
 {
 }
 
-WiFiWizard::WiFiWizard(const String &prefsNamespace, const String &apBaseName, const char *apPassword)
-    : currentState(STATE_OFFLINE), preferencesNamespace(prefsNamespace), apBaseName(apBaseName), apPassword(apPassword)
+WiFiWizard::WiFiWizard(const String &apBaseName, const char *apPassword, const String &prefsNamespace)
+    : currentState(STATE_OFFLINE),
+      apBaseName(apBaseName),
+      apPassword(apPassword),
+      preferencesNamespace(prefsNamespace)
 {
 }
 

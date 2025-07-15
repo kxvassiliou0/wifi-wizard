@@ -11,7 +11,7 @@ class WiFiWizard
 public:
     WiFiWizard();
 
-    WiFiWizard(const String &prefsNamespace, const String &apBaseName = "WifiWizard", const char *apPassword = nullptr);
+    WiFiWizard(const String &apBaseName = "WifiWizard", const char *apPassword = nullptr, const String &prefsNamespace = "wifi");
 
     void begin();
     void loop();
