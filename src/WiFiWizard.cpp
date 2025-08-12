@@ -6,8 +6,11 @@ WiFiWizard::WiFiWizard() : currentState(STATE_OFFLINE)
 {
 }
 
-WiFiWizard::WiFiWizard(const String &prefsNamespace, const String &apBaseName, const char *apPassword)
-    : currentState(STATE_OFFLINE), preferencesNamespace(prefsNamespace), apBaseName(apBaseName), apPassword(apPassword)
+WiFiWizard::WiFiWizard(const String &apBaseName, const char *apPassword, const String &prefsNamespace)
+    : currentState(STATE_OFFLINE),
+      apBaseName(apBaseName),
+      apPassword(apPassword),
+      preferencesNamespace(prefsNamespace)
 {
 }
 
@@ -114,6 +117,24 @@ void WiFiWizard::startAP(const String &customSSID, const char *password)
     }
 
     currentState = STATE_AP_MODE;
+}
+
+void WiFiWizard::resetWiFiCredentials()
+{
+    Serial.println("Resetting WiFi credentials...");
+    preferences.begin(preferencesNamespace.c_str(), false);
+    preferences.remove("ssid");
+    preferences.remove("password");
+    preferences.end();
+
+    lastSSID = "";
+    lastPassword = "";
+
+    WiFi.disconnect(true);
+    delay(100);
+
+    stopAPPublic();
+    begin();
 }
 
 void WiFiWizard::stopAPPublic()

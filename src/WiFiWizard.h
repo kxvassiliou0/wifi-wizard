@@ -11,16 +11,18 @@ class WiFiWizard
 public:
     WiFiWizard();
 
-    WiFiWizard(const String &prefsNamespace, const String &apBaseName = "WifiWizard", const char *apPassword = nullptr);
+    WiFiWizard(const String &apBaseName = "Forma", const char *apPassword = nullptr, const String &prefsNamespace = "wifi");
 
     void begin();
     void loop();
     void startAP();
+
     void startAP(const String &customSSID, const char *password = nullptr);
     void stopAPPublic();
     int scanNetworks();
     void connectToWiFiPublic(const String &ssid, const String &password);
     void processDNS();
+    void resetWiFiCredentials();
     int getCurrentState() const;
 
 private:
@@ -44,7 +46,7 @@ private:
     DNSServer dnsServer;
     bool dnsServerStarted = false;
 
-    String apBaseName = "Wifi-Wizard";
+    String apBaseName = "Forma";
     void connectToWiFi(const String &ssid, const String &password);
 };
 
