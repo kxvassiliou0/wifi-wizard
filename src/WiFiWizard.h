@@ -12,7 +12,7 @@ public:
     WiFiWizard();
 
 <<<<<<<< HEAD:src/WiFiWizard.h
-    WiFiWizard(const String &apBaseName = "Forma", const char *apPassword = nullptr, const String &prefsNamespace = "wifi");
+    WiFiWizard(const String &apBaseName = "WifiWizard", const char *apPassword = nullptr, const String &prefsNamespace = "wifi");
 ========
     WiFiWizard(const String &apBaseName = "WifiWizard", const char *apPassword = nullptr, const String &prefsNamespace = "wifi");
 >>>>>>>> 05a45e5a5ec97b9ff3b31c1508fc33c231342f6e:WifiWizard/src/WiFiWizard.h
